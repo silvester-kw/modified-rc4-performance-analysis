@@ -3,7 +3,7 @@
 import React from "react";
 import { useState, ChangeEvent, useEffect } from "react";
 
-export default function page() {
+export default function VigenereCipher() {
   const [inputType, setinputType] = useState<string | null>("text");
   const [isTypeOpen, setTypeOpen] = useState(false);
   const [key, setKey] = useState<string>("");
