@@ -39,8 +39,8 @@ export default function ExtendedVigenereCipher() {
 
   const decrypt = () => {
     let ciphertext = "";
-    for (let i = 0; i < cipherText.length; i++) {
-      const char = cipherText.charAt(i);
+    for (let i = 0; i < plainText.length; i++) {
+      const char = plainText.charAt(i);
       const keyChar = key[i % key.length];
 
       const decryptedCharCode = (char.charCodeAt(0) - keyChar.charCodeAt(0) + 256) % 256;

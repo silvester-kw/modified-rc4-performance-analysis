@@ -36,7 +36,7 @@ export default function VigenereCipher() {
 
         ciphertext += isUpperCase ? encryptedChar : encryptedChar.toLowerCase();
       } else {
-        ciphertext += char; // Keep non-alphabetic characters unchanged
+        ciphertext += char;
       }
     }
 
@@ -57,7 +57,7 @@ export default function VigenereCipher() {
 
         ciphertext += isUpperCase ? decryptedChar : decryptedChar.toLowerCase();
       } else {
-        ciphertext += char; // Keep non-alphabetic characters unchanged
+        ciphertext += char;
       }
     }
 
