@@ -74,3 +74,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+.dynamic-font-size {
+  --min-font-size: 16px;
+  --max-font-size: 24px;
+
+  font-size: calc(var(--min-font-size) + (var(--max-font-size) - var(--min-font-size)) * ((100vw - 300px) / (1600 - 300)));
+}
