@@ -6,6 +6,7 @@ import { FiDownload } from "react-icons/fi";
 import { BiChevronDown } from "react-icons/bi";
 
 export default function VigenereCipher() {
+  // Inisiasi state
   const [inputType, setinputType] = useState<string | null>("text");
   const [isTypeOpen, setTypeOpen] = useState(false);
   const [key, setKey] = useState<string>("");
@@ -34,20 +35,19 @@ export default function VigenereCipher() {
       alert("Please input plain text and enter a key."); // Jika plain text atau key kosong
       return;
     }
-    let ciphertext = "";
-    for (let i = 0; i < plainText.length; i++) {
-      const char = plainText.charAt(i);
-      const isUpperCase = char === char.toUpperCase();
+    const convertedPlainText = plainText.replace(/\s+/g, "").toUpperCase();
+    const convertedKey = key.replace(/\s+/g, "").toUpperCase();
 
+    let ciphertext = "";
+    for (let i = 0; i < convertedPlainText.length; i++) {
+      const char = convertedPlainText.charAt(i);
       if (char.match(/[A-Z]/i)) {
         const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
-        const keyCharCode = key[i % key.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const keyCharCode = convertedKey[i % convertedKey.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
         const encryptedCharCode = (plainTextCharCode + keyCharCode) % 26;
         const encryptedChar = String.fromCharCode(encryptedCharCode + "A".charCodeAt(0));
 
-        ciphertext += isUpperCase ? encryptedChar : encryptedChar.toLowerCase();
-      } else {
-        ciphertext += char;
+        ciphertext += encryptedChar;
       }
     }
 
@@ -60,23 +60,23 @@ export default function VigenereCipher() {
       alert("Please input plain text and enter a key."); // Jika plain text atau key kosong
       return;
     }
-    for (let i = 0; i < plainText.length; i++) {
-      const char = plainText.charAt(i);
-      const isUpperCase = char === char.toUpperCase();
+    const convertedPlainText = plainText.replace(/\s+/g, "").toUpperCase();
+    const convertedKey = key.replace(/\s+/g, "").toUpperCase();
 
+    let decryptedText = "";
+    for (let i = 0; i < convertedPlainText.length; i++) {
+      const char = convertedPlainText.charAt(i);
       if (char.match(/[A-Z]/i)) {
         const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
-        const keyCharCode = key[i % key.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const keyCharCode = convertedKey[i % convertedKey.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
         const decryptedCharCode = (plainTextCharCode - keyCharCode + 26) % 26;
         const decryptedChar = String.fromCharCode(decryptedCharCode + "A".charCodeAt(0));
 
-        ciphertext += isUpperCase ? decryptedChar : decryptedChar.toLowerCase();
-      } else {
-        ciphertext += char;
+        decryptedText += decryptedChar;
       }
     }
 
-    setCipherText(ciphertext);
+    setCipherText(decryptedText);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -198,7 +198,7 @@ export default function VigenereCipher() {
               </div>
             )}
             <div className="flex w-full">
-              <div className="w-[200px]">Key (26 alphabet)</div>
+              <div className="w-[200px]">Key (26 alphabets)</div>
               <div className="w-full">
                 <label htmlFor="key"></label>
                 <input type="text" id="key" value={key} onChange={handleKeyChange} className="px-2 py-2 whitespace-pre-wrap border-black border-2 rounded-lg w-full" placeholder="Type key here..." />
