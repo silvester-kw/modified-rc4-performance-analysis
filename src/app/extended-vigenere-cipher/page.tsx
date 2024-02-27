@@ -248,7 +248,7 @@ export default function ExtendedVigenereCipher() {
         </div>
         <div className="h-[50%]  black object-center object-none bg-red-200">
           <img
-            src="/kazuha.jpg" //
+            src="/furina.jpeg" //
             alt="Description of your image"
             className="w-full h-full object-cover"
           />
