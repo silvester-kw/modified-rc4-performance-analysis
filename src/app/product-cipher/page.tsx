@@ -27,9 +27,10 @@ export default function ProductCipher() {
   };
 
   const encrypt = () => {
+    let withoutSpace = plainText.replace(/\s+/g, '')
     let ciphertext = "";
-    for (let i = 0; i < plainText.length; i++) {
-      const char = plainText.charAt(i);
+    for (let i = 0; i < withoutSpace.length; i++) {
+      const char = withoutSpace.charAt(i);
       const isUpperCase = char === char.toUpperCase();
 
       if (char.match(/[A-Z]/i)) {
@@ -43,7 +44,7 @@ export default function ProductCipher() {
         ciphertext += char;
       }
     }
-    let withoutSpace = ciphertext.replace(/\s+/g, '')
+    withoutSpace = ciphertext.replace(/\s+/g, '')
 
     const numRows = Math.ceil (withoutSpace.length / Number(key2));
 
