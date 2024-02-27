@@ -45,23 +45,26 @@ export default function ProductCipher() {
         ciphertext += char;
       }
     }
-    const withoutSpace = ciphertext.replace(/\s+/g, "");
-    const numRows = Math.ceil(withoutSpace.length / Number(key));
+    const withoutSpace = ciphertext.replace(/\s+/g, '')
 
-    const transpositionMatrix: string[][] = Array.from({ length: numRows }, () => Array(Number(key)).fill(" "));
 
-    for (let i = 0; i < withoutSpace.length; i++) {
-      const row = Math.floor(i / Number(key));
-      const col = i % Number(key);
-      transpositionMatrix[row][col] = withoutSpace[i];
-    }
+    const numRows = Math.ceil (withoutSpace.length / Number(key));
 
-    // Mengonversi matriks transposisi menjadi cipherteks secara vertikal
+
+    // const transpositionMatrix: string[][] = Array.from({ length: numRows }, () => Array(Number(key)).fill(''));
+
+    // for (let i = 0; i < withoutSpace.length; i++) {
+        // const row = Math.floor(i / Number(key));
+        // const col = i % Number(key);
+        // transpositionMatrix[row][col] = withoutSpace[i];
+    // }
+
     let secondCiphertext = "";
     for (let col = 0; col < Number(key); col++) {
-      for (let row = 0; row < numRows; row++) {
-        secondCiphertext += transpositionMatrix[row][col];
-      }
+        for (let row = 0; row < numRows; row++) {
+            secondCiphertext += withoutSpace[row * Number(key) + col]
+            //secondCiphertext += transpositionMatrix[row][col];
+        }
     }
 
     setCipherText(secondCiphertext);
