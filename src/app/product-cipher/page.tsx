@@ -7,6 +7,7 @@ export default function ProductCipher() {
   const [inputType, setinputType] = useState<string | null>("text");
   const [isTypeOpen, setTypeOpen] = useState(false);
   const [key, setKey] = useState<string>("");
+  const [key2, setKey2] = useState<string>("");
   const [plainText, setPlainText] = useState<string>("");
   const [cipherText, setCipherText] = useState<string>("");
 
@@ -17,6 +18,9 @@ export default function ProductCipher() {
 
   const handleKeyChange = (e: ChangeEvent<HTMLInputElement>) => {
     setKey(e.target.value);
+  };
+  const handleKey2Change = (e: ChangeEvent<HTMLInputElement>) => {
+    setKey2(e.target.value);
   };
   const handlePlainTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPlainText(e.target.value);
@@ -41,24 +45,23 @@ export default function ProductCipher() {
         ciphertext += char;
       }
     }
-    const withoutSpace = ciphertext.replace(/\s+/g, '');
+    const withoutSpace = ciphertext.replace(/\s+/g, "");
     const numRows = Math.ceil(withoutSpace.length / Number(key));
 
-
-    const transpositionMatrix: string[][] = Array.from({ length: numRows }, () => Array(Number(key)).fill(' '));
+    const transpositionMatrix: string[][] = Array.from({ length: numRows }, () => Array(Number(key)).fill(" "));
 
     for (let i = 0; i < withoutSpace.length; i++) {
-        const row = Math.floor(i / Number(key));
-        const col = i % Number(key);
-        transpositionMatrix[row][col] = withoutSpace[i];
+      const row = Math.floor(i / Number(key));
+      const col = i % Number(key);
+      transpositionMatrix[row][col] = withoutSpace[i];
     }
 
     // Mengonversi matriks transposisi menjadi cipherteks secara vertikal
     let secondCiphertext = "";
     for (let col = 0; col < Number(key); col++) {
-        for (let row = 0; row < numRows; row++) {
-            secondCiphertext += transpositionMatrix[row][col];
-        }
+      for (let row = 0; row < numRows; row++) {
+        secondCiphertext += transpositionMatrix[row][col];
+      }
     }
 
     setCipherText(secondCiphertext);
@@ -68,19 +71,19 @@ export default function ProductCipher() {
     const decipherText = plainText;
     const numRows = Math.ceil(plainText.length / Number(key));
 
-    const transpositionMatrix: string[][] = Array.from({ length: numRows }, () => Array(Number(key)).fill(' '));
+    const transpositionMatrix: string[][] = Array.from({ length: numRows }, () => Array(Number(key)).fill(" "));
 
     for (let col = 0; col < Number(key); col++) {
-        for (let row = 0; row < numRows; row++) {
-            transpositionMatrix[row][col] = decipherText[col * numRows + row];
-        }
+      for (let row = 0; row < numRows; row++) {
+        transpositionMatrix[row][col] = decipherText[col * numRows + row];
+      }
     }
 
-    let plaintext = '';
+    let plaintext = "";
     for (let i = 0; i < numRows; i++) {
-        for (let j = 0; j < Number(key); j++) {
-            plaintext += transpositionMatrix[i][j];
-        }
+      for (let j = 0; j < Number(key); j++) {
+        plaintext += transpositionMatrix[i][j];
+      }
     }
     const firstDecipher = plaintext;
 
@@ -141,6 +144,13 @@ export default function ProductCipher() {
             <input type="text" id="key" value={key} onChange={handleKeyChange} className="border-2 border-blue-200 rounded-md w-full " />
           </div>
         </div>
+        <div className="flex w-full">
+          <div className="w-[150px]">Key2 (26 alfabet)</div>
+          <div>
+            <label htmlFor="key2"></label>
+            <input type="text" id="key2" value={key2} onChange={handleKey2Change} className="border-2 border-blue-200 rounded-md w-full " />
+          </div>
+        </div>
         <div className="flex">
           <div className="w-[150px]"></div>
           <button onClick={encrypt} className="p-2 bg-blue-200 rounded-lg hover:bg-blue-400">
@@ -160,6 +170,7 @@ export default function ProductCipher() {
         <div className="font-semibold text-lg">NANTI DIHAPUS</div>
         <div>plaintext: {plainText}</div>
         <div>key: {key}</div>
+        <div>key2: {key2}</div>
         <div>ciphertext: {cipherText}</div>
       </div>
     </div>
