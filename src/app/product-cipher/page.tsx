@@ -34,8 +34,8 @@ export default function ProductCipher() {
 
       if (char.match(/[A-Z]/i)) {
         const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
-        const keyCharCode = key[i % key.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
-        const encryptedCharCode = (plainTextCharCode + keyCharCode) % 26;
+        const keyCharCode = key[i % key.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0) || 0;
+        const encryptedCharCode = (plainTextCharCode + keyCharCode) % 26 ;
         const encryptedChar = String.fromCharCode(encryptedCharCode + "A".charCodeAt(0));
 
         ciphertext += isUpperCase ? encryptedChar : encryptedChar.toLowerCase();
@@ -43,70 +43,67 @@ export default function ProductCipher() {
         ciphertext += char;
       }
     }
-    const withoutSpace = ciphertext.replace(/\s+/g, '')
+    let withoutSpace = ciphertext.replace(/\s+/g, '')
 
+    const numRows = Math.ceil (withoutSpace.length / Number(key2));
+
+    if (Number(key2) !== 0) {
+      let secondCiphertext = "";
+    while (withoutSpace.length % Number(key2)!== 0) {
+      withoutSpace += "x";
+    }
+    for (let col = 0; col < Number(key2); col++) {
+      for (let row = 0; row < numRows; row++) {
+        secondCiphertext += withoutSpace[row * Number(key2) + col]
+          //secondCiphertext += transpositionMatrix[row][col];
+      }
+    }
+    setCipherText(secondCiphertext);
+    }
+    else {
+      setCipherText(withoutSpace);
+    }
+
+  };
+
+  const decrypt = () => {
+    let withoutSpace = plainText.replace(/\s+/g, '')
 
     const numRows = Math.ceil (withoutSpace.length / Number(key2));
 
 
-    // const transpositionMatrix: string[][] = Array.from({ length: numRows }, () => Array(Number(key)).fill(''));
+    let firstDeciphertext = "";
 
-    // for (let i = 0; i < withoutSpace.length; i++) {
-        // const row = Math.floor(i / Number(key));
-        // const col = i % Number(key);
-        // transpositionMatrix[row][col] = withoutSpace[i];
-    // }
-
-    let secondCiphertext = "";
-    for (let col = 0; col < Number(key2); col++) {
-        for (let row = 0; row < numRows; row++) {
-            secondCiphertext += withoutSpace[row * Number(key2) + col]
-            //secondCiphertext += transpositionMatrix[row][col];
-        }
-    }
-
-    setCipherText(secondCiphertext);
-  };
-
-  const decrypt = () => {
-    const decipherText = plainText;
-    const numRows = Math.ceil(plainText.length / Number(key2));
-
-    const transpositionMatrix: string[][] = Array.from({ length: numRows }, () => Array(Number(key)).fill(" "));
-
-    for (let col = 0; col < Number(key2); col++) {
-      for (let row = 0; row < numRows; row++) {
-        transpositionMatrix[row][col] = decipherText[col * numRows + row];
+    for (let col = 0; col < numRows; col++) {
+      for (let row = 0; row < Number(key2); row++) {
+        firstDeciphertext += withoutSpace[row * numRows + col]
+          //secondCiphertext += transpositionMatrix[row][col];
       }
     }
 
-    let plaintext = "";
-    for (let i = 0; i < numRows; i++) {
-      for (let j = 0; j < Number(key2); j++) {
-        plaintext += transpositionMatrix[i][j];
-      }
-    }
-    const firstDecipher = plaintext;
 
-    let ciphertext = "";
-    for (let i = 0; i < firstDecipher.length; i++) {
-      const char = firstDecipher.charAt(i);
-      const isUpperCase = char === char.toUpperCase();
+   //let ciphertext = "";
+  
+    const convertedPlainText = firstDeciphertext;
+    const convertedKey = key.replace(/\s+/g, "").toUpperCase();
 
+    let decryptedText = "";
+    for (let i = 0; i < convertedPlainText.length; i++) {
+      const char = convertedPlainText.charAt(i);
       if (char.match(/[A-Z]/i)) {
         const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
-        const keyCharCode = key[i % key.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const keyCharCode = convertedKey[i % convertedKey.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
         const decryptedCharCode = (plainTextCharCode - keyCharCode + 26) % 26;
         const decryptedChar = String.fromCharCode(decryptedCharCode + "A".charCodeAt(0));
 
-        ciphertext += isUpperCase ? decryptedChar : decryptedChar.toLowerCase();
-      } else {
-        ciphertext += char;
+        decryptedText += decryptedChar.toLowerCase();
       }
     }
 
-    setCipherText(ciphertext);
-  };
+    setCipherText(decryptedText);
+  
+  
+};
 
   return (
     <div>

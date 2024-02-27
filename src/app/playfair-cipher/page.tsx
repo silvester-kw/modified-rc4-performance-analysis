@@ -24,7 +24,7 @@ export default function PlaifairCipher() {
 
   const createPlayfairMatrix = (key: any) => {
     const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
-    let matrix = new Array(5).fill(null).map(() => new Array(5).fill(null));
+    let matrix: string[][] = Array.from({ length: 5 }, () => Array(5).fill(""));
     let keyWithoutDuplicates = key.toUpperCase().replace(/J/g, "I");
     keyWithoutDuplicates += alphabet.replace(new RegExp(`[${keyWithoutDuplicates}]`, "g"), "");
 
