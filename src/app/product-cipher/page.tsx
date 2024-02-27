@@ -34,11 +34,9 @@ export default function ProductCipher() {
 
       if (char.match(/[A-Z]/i)) {
         const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
-        //kunci pertama berbentuk angka k
-        const firstKey = Number(key);
-        const firstEncryptedCharCode = (plainTextCharCode + firstKey) % 26;
-        //
-        const encryptedChar = String.fromCharCode(firstEncryptedCharCode + "A".charCodeAt(0));
+        const keyCharCode = key[i % key.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const encryptedCharCode = (plainTextCharCode + keyCharCode) % 26;
+        const encryptedChar = String.fromCharCode(encryptedCharCode + "A".charCodeAt(0));
 
         ciphertext += isUpperCase ? encryptedChar : encryptedChar.toLowerCase();
       } else {
@@ -48,7 +46,7 @@ export default function ProductCipher() {
     const withoutSpace = ciphertext.replace(/\s+/g, '')
 
 
-    const numRows = Math.ceil (withoutSpace.length / Number(key));
+    const numRows = Math.ceil (withoutSpace.length / Number(key2));
 
 
     // const transpositionMatrix: string[][] = Array.from({ length: numRows }, () => Array(Number(key)).fill(''));
@@ -60,9 +58,9 @@ export default function ProductCipher() {
     // }
 
     let secondCiphertext = "";
-    for (let col = 0; col < Number(key); col++) {
+    for (let col = 0; col < Number(key2); col++) {
         for (let row = 0; row < numRows; row++) {
-            secondCiphertext += withoutSpace[row * Number(key) + col]
+            secondCiphertext += withoutSpace[row * Number(key2) + col]
             //secondCiphertext += transpositionMatrix[row][col];
         }
     }
@@ -72,11 +70,11 @@ export default function ProductCipher() {
 
   const decrypt = () => {
     const decipherText = plainText;
-    const numRows = Math.ceil(plainText.length / Number(key));
+    const numRows = Math.ceil(plainText.length / Number(key2));
 
     const transpositionMatrix: string[][] = Array.from({ length: numRows }, () => Array(Number(key)).fill(" "));
 
-    for (let col = 0; col < Number(key); col++) {
+    for (let col = 0; col < Number(key2); col++) {
       for (let row = 0; row < numRows; row++) {
         transpositionMatrix[row][col] = decipherText[col * numRows + row];
       }
@@ -84,7 +82,7 @@ export default function ProductCipher() {
 
     let plaintext = "";
     for (let i = 0; i < numRows; i++) {
-      for (let j = 0; j < Number(key); j++) {
+      for (let j = 0; j < Number(key2); j++) {
         plaintext += transpositionMatrix[i][j];
       }
     }
@@ -97,7 +95,8 @@ export default function ProductCipher() {
 
       if (char.match(/[A-Z]/i)) {
         const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
-        const decryptedCharCode = (plainTextCharCode - Number(key) + 26) % 26;
+        const keyCharCode = key[i % key.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const decryptedCharCode = (plainTextCharCode - keyCharCode + 26) % 26;
         const decryptedChar = String.fromCharCode(decryptedCharCode + "A".charCodeAt(0));
 
         ciphertext += isUpperCase ? decryptedChar : decryptedChar.toLowerCase();
@@ -111,7 +110,7 @@ export default function ProductCipher() {
 
   return (
     <div>
-      <h1 className="font-bold text-xl mb-8">Vigenere Cipher</h1>
+      <h1 className="font-bold text-xl mb-8">Product Cipher</h1>
       <div className="space-y-2 w-full">
         <div className="flex">
           <div className="w-[150px]">Input Type</div>
@@ -148,7 +147,7 @@ export default function ProductCipher() {
           </div>
         </div>
         <div className="flex w-full">
-          <div className="w-[150px]">Key2 (26 alfabet)</div>
+          <div className="w-[150px]">Key2 (angka)</div>
           <div>
             <label htmlFor="key2"></label>
             <input type="text" id="key2" value={key2} onChange={handleKey2Change} className="border-2 border-blue-200 rounded-md w-full " />
