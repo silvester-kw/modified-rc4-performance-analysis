@@ -3,14 +3,8 @@ import React from "react";
 
 export default function Navbar() {
   return (
-    <div className="flex mb-4 justify-between font-mono  py-2 px-5">
-      <Link href="/">
-        <h1 className="font-bold">Classic Cryptography</h1>
-      </Link>
-      <Link href="/design-baru">
-        <div className="hover:font-semibold">Design Baru</div>
-      </Link>
-      <ul className="flex space-x-6 font-medium">
+    <div className="flex mb-4 container font-mono py-4 text-lg">
+      <ul className="flex w-full justify-around font-medium">
         <Link href="/vigenere-cipher">
           <li className="hover:font-semibold">Vigenere Cipher</li>
         </Link>
