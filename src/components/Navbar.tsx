@@ -6,16 +6,19 @@ export default function Navbar() {
     <div className="flex mb-4 container font-mono py-4 text-lg">
       <ul className="flex w-full justify-around font-medium">
         <Link href="/vigenere-cipher">
-          <li className="hover:font-semibold">Vigenere Cipher</li>
+          <li className="hover:font-bold">Vigenere Cipher</li>
         </Link>
         <Link href="/extended-vigenere-cipher">
-          <li className="hover:font-semibold">Extended Vigenere Cipher</li>
+          <li className="hover:font-bold">Extended Vigenere Cipher</li>
         </Link>
         <Link href="/playfair-cipher">
-          <li className="hover:font-semibold">Playfair Cipher</li>
+          <li className="hover:font-bold">Playfair Cipher</li>
         </Link>
         <Link href="/product-cipher">
-          <li className="hover:font-semibold">Product Cipher</li>
+          <li className="hover:font-bold">Product Cipher</li>
+        </Link>
+        <Link href="/affine-cipher">
+          <li className="hover:font-bold">Affine Cipher</li>
         </Link>
       </ul>
     </div>
