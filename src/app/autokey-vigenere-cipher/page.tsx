@@ -185,7 +185,7 @@ export default function VigenereCipher() {
             )}
           </div>
         </div>
-        <div className="p-4 border-b-4 border-black bg-[#EA4A31]">
+        <div className="p-4 border-b-4 border-black bg-[#798BCC]">
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221049 Silvester Kresna W. P. P.</div>
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221080 Fakhri Putra Mahardika.</div>
         </div>
@@ -211,7 +211,7 @@ export default function VigenereCipher() {
         </div>
         <div className="h-[50%]  black object-center object-none bg-red-200">
           <img
-            src="/kazuha.jpg" //
+            src="/yae.jpg" //
             alt="Description of your image"
             className="w-full h-full object-cover"
           />

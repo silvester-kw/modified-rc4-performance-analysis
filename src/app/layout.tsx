@@ -30,6 +30,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         <div className="container">{children}</div>
+        <div className="font-reggae font-9xl">Classic Cipher</div>
       </body>
     </html>
   );

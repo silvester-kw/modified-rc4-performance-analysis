@@ -202,7 +202,7 @@ export default function AffineCipher() {
             )}
           </div>
         </div>
-        <div className="p-4 border-b-4 border-black">
+        <div className="p-4 border-b-4 border-black bg-[#2DB3D6]">
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221049 Silvester Kresna W. P. P.</div>
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221080 Fakhri Putra Mahardika.</div>
         </div>

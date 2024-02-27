@@ -216,7 +216,7 @@ export default function ExtendedVigenereCipher() {
             )}
           </div>
         </div>
-        <div className="p-4 border-b-4 border-black">
+        <div className="p-4 border-b-4 border-black bg-[#1FB6FD]">
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221049 Silvester Kresna W. P. P.</div>
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221080 Fakhri Putra Mahardika.</div>
         </div>

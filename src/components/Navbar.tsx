@@ -4,7 +4,7 @@ import React from "react";
 export default function Navbar() {
   return (
     <div className="flex mb-4 container font-mono py-4 text-lg">
-      <ul className="flex w-full justify-around font-medium">
+      <ul className="flex w-full justify-between font-medium">
         <Link href="/vigenere-cipher">
           <li className="hover:font-bold">Vigenere Cipher</li>
         </Link>
@@ -16,6 +16,9 @@ export default function Navbar() {
         </Link>
         <Link href="/product-cipher">
           <li className="hover:font-bold">Product Cipher</li>
+        </Link>
+        <Link href="/autokey-vigenere-cipher">
+          <li className="hover:font-bold">Autokey Vigenere Cipher</li>
         </Link>
         <Link href="/affine-cipher">
           <li className="hover:font-bold">Affine Cipher</li>
