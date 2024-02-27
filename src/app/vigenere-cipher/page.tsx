@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, ChangeEvent } from "react";
+import { FiDownload } from "react-icons/fi";
+import { BiChevronDown } from "react-icons/bi";
 
 export default function VigenereCipher() {
   const [inputType, setinputType] = useState<string | null>("text");
@@ -11,12 +13,13 @@ export default function VigenereCipher() {
   const [cipherText, setCipherText] = useState<string>("");
 
   const [file, setFile] = useState<File | null>(null);
-  const [encryptedFile, setEncryptedFile] = useState<Blob | null>(null);
-  const [decryptedFile, setDecryptedFile] = useState<Blob | null>(null);
 
   const handleTypeSelect = (option: string) => {
     setinputType(option);
     setTypeOpen(false);
+    setPlainText("");
+    setKey("");
+    setCipherText("");
   };
 
   const handleKeyChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,9 +79,76 @@ export default function VigenereCipher() {
     setCipherText(ciphertext);
   };
 
-  const handleFileChange = () => {};
-  const encryptFile = () => {};
-  const decryptFile = () => {};
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+
+    if (selectedFile && selectedFile.type === "text/plain") {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const fileContent = event.target?.result as string;
+        setPlainText(fileContent);
+      };
+
+      reader.readAsText(selectedFile);
+      setFile(selectedFile);
+    } else {
+      alert("Please select a valid .txt file");
+      setPlainText("");
+    }
+  };
+
+  const encryptFile = () => {
+    if (!plainText || !key) {
+      alert("Please input plain text and enter a key.");
+      return;
+    }
+
+    let ciphertext = "";
+    for (let i = 0; i < plainText.length; i++) {
+      const char = plainText.charAt(i);
+      const isUpperCase = char === char.toUpperCase();
+
+      if (char.match(/[A-Z]/i)) {
+        const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const keyCharCode = key[i % key.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const encryptedCharCode = (plainTextCharCode + keyCharCode) % 26;
+        const encryptedChar = String.fromCharCode(encryptedCharCode + "A".charCodeAt(0));
+
+        ciphertext += isUpperCase ? encryptedChar : encryptedChar.toLowerCase();
+      } else {
+        ciphertext += char;
+      }
+    }
+
+    setCipherText(ciphertext);
+  };
+
+  const decryptFile = () => {
+    if (!plainText || !key) {
+      alert("Please input plain text and enter a key.");
+      return;
+    }
+
+    let decryptedText = "";
+    for (let i = 0; i < plainText.length; i++) {
+      const char = plainText.charAt(i);
+      const isUpperCase = char === char.toUpperCase();
+
+      if (char.match(/[A-Z]/i)) {
+        const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const keyCharCode = key[i % key.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const decryptedCharCode = (plainTextCharCode - keyCharCode + 26) % 26;
+        const decryptedChar = String.fromCharCode(decryptedCharCode + "A".charCodeAt(0));
+
+        decryptedText += isUpperCase ? decryptedChar : decryptedChar.toLowerCase();
+      } else {
+        decryptedText += char;
+      }
+    }
+
+    setCipherText(decryptedText);
+  };
 
   return (
     <div className="flex h-[100%]">
@@ -88,8 +158,8 @@ export default function VigenereCipher() {
             <div className="flex items-center">
               <div className="w-[147px]">Input Type</div>
               <div className="relative">
-                <button onClick={() => setTypeOpen(!isTypeOpen)} className="w-[100px] bg-black text-white p-2 rounded-md hover:font-extrabold hover:text-lg">
-                  {inputType || "Select an option"} ↓
+                <button onClick={() => setTypeOpen(!isTypeOpen)} className="flex justify-around items-center w-[100px] bg-black text-white p-2 rounded-md hover:font-extrabold hover:text-lg">
+                  {inputType || "Select an option"} <BiChevronDown />
                 </button>
                 {isTypeOpen && (
                   <div className="absolute mt-1 w-40 bg-white border-2 border-black rounded-md shadow-md">
@@ -114,9 +184,17 @@ export default function VigenereCipher() {
               </div>
             )}
             {inputType == "file" && (
-              <div className="flex">
-                <div className="w-[147px]">File Upload</div>
-                <input type="file" onChange={handleFileChange} />
+              <div>
+                <div className="flex">
+                  <div className="w-[147px]">File (.txt)</div>
+                  <input type="file" onChange={handleFileChange} />
+                </div>
+                {plainText != "" && (
+                  <div className="flex items-center mt-2">
+                    <div className="w-[200px]">Plain Text</div>
+                    <div className="w-full border-black border-2 rounded-lg p-2">{plainText}</div>
+                  </div>
+                )}
               </div>
             )}
             <div className="flex w-full">
@@ -166,20 +244,11 @@ export default function VigenereCipher() {
               <div className="w-[auto] bg-slate-200 rounded">{cipherText}</div>
             </div>
           )}
-          {encryptedFile && (
-            <div className="flex">
-              <div className="w-[150px]">Encrypted File</div>
-              <a className="underline text-blue-500" href={URL.createObjectURL(encryptedFile)} download={`${file?.name?.replace(/\.[^/.]+$/, "") || "encrypted"}_encrypted.${file?.name?.split(".").pop()}`}>
-                Download Encrypted File
-              </a>
-            </div>
-          )}
-
-          {decryptedFile && (
-            <div className="flex">
-              <div className="w-[150px]">Decrypted File</div>
-              <a className="underline text-blue-500" href={URL.createObjectURL(decryptedFile)} download={`${file?.name?.replace(/\.[^/.]+$/, "") || "decrypted"}_decrypted.${file?.name?.split(".").pop()}`}>
-                Download Decrypted File
+          {cipherText && (
+            <div className="mt-4 flex">
+              <a className="bg-black text-white p-2 rounded-lg flex items-center" href={`data:text/plain;charset=utf-8,${encodeURIComponent(cipherText)}`} download={`cipher_text.txt`}>
+                <FiDownload className="mr-2" />
+                Download Text File
               </a>
             </div>
           )}

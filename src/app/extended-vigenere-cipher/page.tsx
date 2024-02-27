@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
 import { useState, ChangeEvent } from "react";
-
+import { FiDownload } from "react-icons/fi";
+import { BiChevronDown } from "react-icons/bi";
 const EncryptDecryptFileInput = {
   encrypt: (fileData: Uint8Array, key: string): Uint8Array => {
     const encryptedData = new Uint8Array(fileData.length);
@@ -41,6 +41,9 @@ export default function ExtendedVigenereCipher() {
     setFile(null);
     setEncryptedFile(null);
     setDecryptedFile(null);
+    setPlainText("");
+    setKey("");
+    setCipherText("");
   };
 
   // Menghandle perubahan key pada form input
@@ -150,8 +153,8 @@ export default function ExtendedVigenereCipher() {
             <div className="flex items-center">
               <div className="w-[147px]">Input Type</div>
               <div className="relative">
-                <button onClick={() => setTypeOpen(!isTypeOpen)} className="w-[100px] bg-black text-white p-2 rounded-md hover:font-extrabold hover:text-lg">
-                  {inputType || "Select an option"} ↓
+                <button onClick={() => setTypeOpen(!isTypeOpen)} className="flex justify-around items-center w-[100px] bg-black text-white p-2 rounded-md hover:font-extrabold hover:text-lg">
+                  {inputType || "Select an option"} <BiChevronDown />
                 </button>
                 {isTypeOpen && (
                   <div className="absolute mt-1 w-40 bg-white border-2 border-black rounded-md shadow-md">
@@ -229,18 +232,28 @@ export default function ExtendedVigenereCipher() {
             </div>
           )}
           {encryptedFile && (
-            <div className="flex">
-              <div className="w-[150px]">Encrypted File</div>
-              <a className="underline text-blue-500" href={URL.createObjectURL(encryptedFile)} download={`${file?.name?.replace(/\.[^/.]+$/, "") || "encrypted"}_encrypted.${file?.name?.split(".").pop()}`}>
+            <div className="space-y-4">
+              <div className="">Encrypted File</div>
+              <a
+                className="bg-black text-white p-2 rounded-lg flex justify-center items-center w-[300px]"
+                href={URL.createObjectURL(encryptedFile)}
+                download={`${file?.name?.replace(/\.[^/.]+$/, "") || "encrypted"}_encrypted.${file?.name?.split(".").pop()}`}
+              >
+                <FiDownload className="mr-2" />
                 Download Encrypted File
               </a>
             </div>
           )}
 
           {decryptedFile && (
-            <div className="flex">
-              <div className="w-[150px]">Decrypted File</div>
-              <a className="underline text-blue-500" href={URL.createObjectURL(decryptedFile)} download={`${file?.name?.replace(/\.[^/.]+$/, "") || "decrypted"}_decrypted.${file?.name?.split(".").pop()}`}>
+            <div className="space-y-4">
+              <div className="">Decrypted File</div>
+              <a
+                className="bg-black text-white p-2 rounded-lg flex justify-center items-center w-[300px]"
+                href={URL.createObjectURL(decryptedFile)}
+                download={`${file?.name?.replace(/\.[^/.]+$/, "") || "decrypted"}_decrypted.${file?.name?.split(".").pop()}`}
+              >
+                <FiDownload className="mr-2" />
                 Download Decrypted File
               </a>
             </div>

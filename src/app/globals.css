@@ -81,3 +81,7 @@
 
   font-size: calc(var(--min-font-size) + (var(--max-font-size) - var(--min-font-size)) * ((100vw - 300px) / (1600 - 300)));
 }
+
+.nav-link.active {
+  background-color: black;
+}
