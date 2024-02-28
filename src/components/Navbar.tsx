@@ -14,7 +14,7 @@ export default function Navbar() {
         <Link href="/playfair-cipher">
           <li className="hover:font-bold">Playfair Cipher</li>
         </Link>
-        <Link href="/new-product-cipher">
+        <Link href="/product-cipher">
           <li className="hover:font-bold">Product Cipher</li>
         </Link>
         <Link href="/autokey-vigenere-cipher">
