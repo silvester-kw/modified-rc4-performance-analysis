@@ -4,6 +4,7 @@ import React from "react";
 import { useState, ChangeEvent } from "react";
 import { FiDownload } from "react-icons/fi";
 import { BiChevronDown } from "react-icons/bi";
+import ShareLink from "../../components/ShareLink";
 
 export default function VigenereCipher() {
   // Inisiasi state
@@ -12,6 +13,8 @@ export default function VigenereCipher() {
   const [key, setKey] = useState<string>("");
   const [plainText, setPlainText] = useState<string>("");
   const [cipherText, setCipherText] = useState<string>("");
+  const [cipherTextBase64, setCipherTextBase64] = useState<string>("");
+
   // State untuk file
   const [file, setFile] = useState<File | null>(null);
 
@@ -57,6 +60,7 @@ export default function VigenereCipher() {
     }
 
     setCipherText(ciphertext);
+    setCipherTextBase64(Buffer.from(ciphertext).toString("base64"));
   };
 
   // Algoritma dekripsi untuk form input plain text
@@ -83,6 +87,7 @@ export default function VigenereCipher() {
     }
 
     setCipherText(decryptedText);
+    setCipherTextBase64(Buffer.from(decryptedText).toString("base64"));
   };
 
   // Menghandle perubahan file input
@@ -194,22 +199,34 @@ export default function VigenereCipher() {
       </div>
       <div className="w-[55%] border-black border-r-4 border-y-4">
         <div className="h-[50%] font-mono border-b-4 border-black font-medium p-4">
-          {cipherText != "" && (
-            <div className="w-full">
-              <div className="w-[150px]">Cipher Text:</div>
-              <div className="w-[auto] bg-slate-200 rounded">{cipherText}</div>
-            </div>
-          )}
           {cipherText && (
-            <div className="mt-4 flex">
-              <a className="bg-black text-white p-2 rounded-lg flex items-center" href={`data:text/plain;charset=utf-8,${encodeURIComponent(cipherText)}`} download={`cipher_text.txt`}>
-                <FiDownload className="mr-2" />
-                Download Text File
-              </a>
+            <div>
+              <div className="w-full">
+                <div className="flex justify-between">
+                  <div className="w-[150px]">Cipher Text:</div>
+                  <ShareLink link={cipherText} />
+                </div>
+                <div className="w-[auto] bg-slate-200 rounded">{cipherText}</div>
+              </div>
+
+              <div className="mt-4 flex">
+                <a className="bg-black text-white p-2 rounded-lg flex items-center" href={`data:text/plain;charset=utf-8,${encodeURIComponent(cipherText)}`} download={`cipher_text.txt`}>
+                  <FiDownload className="mr-2" />
+                  Download Text File
+                </a>
+              </div>
+
+              <div className="w-full mt-4">
+                <div className="flex justify-between">
+                  <div className="">Cipher Text (Base64):</div>
+                  <ShareLink link={cipherTextBase64} />
+                </div>
+                <div className="w-[auto] bg-slate-200 rounded">{cipherTextBase64}</div>
+              </div>
             </div>
           )}
         </div>
-        <div className="h-[50%]  black object-center object-none bg-red-200">
+        <div className="h-[50%] outline outline-4 black object-center object-none bg-red-200">
           <img
             src="/yae.jpg" //
             alt="Description of your image"

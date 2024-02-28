@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useState, ChangeEvent, useEffect } from "react";
+import ShareLink from "../../components/ShareLink";
 
 export default function ProductCipher() {
   const [inputType, setinputType] = useState<string | null>("text");
@@ -27,7 +28,7 @@ export default function ProductCipher() {
   };
 
   const encrypt = () => {
-    let withoutSpace = plainText.replace(/\s+/g, '')
+    let withoutSpace = plainText.replace(/\s+/g, "");
     let ciphertext = "";
     for (let i = 0; i < withoutSpace.length; i++) {
       const char = withoutSpace.charAt(i);
@@ -36,7 +37,7 @@ export default function ProductCipher() {
       if (char.match(/[A-Z]/i)) {
         const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
         const keyCharCode = key[i % key.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0) || 0;
-        const encryptedCharCode = (plainTextCharCode + keyCharCode) % 26 ;
+        const encryptedCharCode = (plainTextCharCode + keyCharCode) % 26;
         const encryptedChar = String.fromCharCode(encryptedCharCode + "A".charCodeAt(0));
 
         ciphertext += isUpperCase ? encryptedChar : encryptedChar.toLowerCase();
@@ -44,47 +45,43 @@ export default function ProductCipher() {
         ciphertext += char;
       }
     }
-    withoutSpace = ciphertext.replace(/\s+/g, '')
+    withoutSpace = ciphertext.replace(/\s+/g, "");
 
-    const numRows = Math.ceil (withoutSpace.length / Number(key2));
+    const numRows = Math.ceil(withoutSpace.length / Number(key2));
 
     if (Number(key2) !== 0) {
       let secondCiphertext = "";
-    while (withoutSpace.length % Number(key2)!== 0) {
-      withoutSpace += "x";
-    }
-    for (let col = 0; col < Number(key2); col++) {
-      for (let row = 0; row < numRows; row++) {
-        secondCiphertext += withoutSpace[row * Number(key2) + col]
-          //secondCiphertext += transpositionMatrix[row][col];
+      while (withoutSpace.length % Number(key2) !== 0) {
+        withoutSpace += "x";
       }
-    }
-    setCipherText(secondCiphertext);
-    }
-    else {
+      for (let col = 0; col < Number(key2); col++) {
+        for (let row = 0; row < numRows; row++) {
+          secondCiphertext += withoutSpace[row * Number(key2) + col];
+          //secondCiphertext += transpositionMatrix[row][col];
+        }
+      }
+      setCipherText(secondCiphertext);
+    } else {
       setCipherText(withoutSpace);
     }
-
   };
 
   const decrypt = () => {
-    let withoutSpace = plainText.replace(/\s+/g, '')
+    let withoutSpace = plainText.replace(/\s+/g, "");
 
-    const numRows = Math.ceil (withoutSpace.length / Number(key2));
-
+    const numRows = Math.ceil(withoutSpace.length / Number(key2));
 
     let firstDeciphertext = "";
 
     for (let col = 0; col < numRows; col++) {
       for (let row = 0; row < Number(key2); row++) {
-        firstDeciphertext += withoutSpace[row * numRows + col]
-          //secondCiphertext += transpositionMatrix[row][col];
+        firstDeciphertext += withoutSpace[row * numRows + col];
+        //secondCiphertext += transpositionMatrix[row][col];
       }
     }
 
+    //let ciphertext = "";
 
-   //let ciphertext = "";
-  
     const convertedPlainText = firstDeciphertext;
     const convertedKey = key.replace(/\s+/g, "").toUpperCase();
 
@@ -102,9 +99,7 @@ export default function ProductCipher() {
     }
 
     setCipherText(decryptedText);
-  
-  
-};
+  };
 
   return (
     <div>

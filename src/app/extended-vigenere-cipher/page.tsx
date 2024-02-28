@@ -259,7 +259,7 @@ export default function ExtendedVigenereCipher() {
             </div>
           )}
         </div>
-        <div className="h-[50%]  black object-center object-none bg-red-200">
+        <div className="h-[50%] outline outline-4 black object-center object-none bg-red-200">
           <img
             src="/furina.jpeg" //
             alt="Description of your image"
