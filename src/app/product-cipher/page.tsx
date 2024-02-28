@@ -15,7 +15,8 @@ export default function AffineCipher() {
   const [plainText, setPlainText] = useState<string>("");
   const [cipherText, setCipherText] = useState<string>("");
   const [cipherTextBase64, setCipherTextBase64] = useState<string>("");
-
+  const [code, setCode] = useState<string>("ci") ;
+  
   // State untuk file
   const [file, setFile] = useState<File | null>(null);
 
@@ -92,6 +93,7 @@ export default function AffineCipher() {
       setCipherText(withoutSpace.toUpperCase());
       setCipherTextBase64(Buffer.from(withoutSpace).toString("base64"));
     }
+    setCode("ci");
   };
 
   const decrypt = () => {
@@ -125,7 +127,7 @@ export default function AffineCipher() {
         decryptedText += decryptedChar.toLowerCase();
       }
     }
-
+    setCode("deci");
     setCipherText(decryptedText.toUpperCase());
     setCipherTextBase64(Buffer.from(decryptedText).toString("base64"));
   };
@@ -237,7 +239,7 @@ export default function AffineCipher() {
               </div>
 
               <div className="mt-4 flex">
-                <a className="bg-black text-white p-2 rounded-lg flex items-center" href={`data:text/plain;charset=utf-8,${encodeURIComponent(cipherText)}`} download={`cipher_text.txt`}>
+                <a className="bg-black text-white p-2 rounded-lg flex items-center" href={`data:text/plain;charset=utf-8,${encodeURIComponent(cipherText)}`} download={`${code}pher_text.txt`}>
                   <FiDownload className="mr-2" />
                   Download Text File
                 </a>

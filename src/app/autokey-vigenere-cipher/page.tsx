@@ -14,7 +14,7 @@ export default function VigenereCipher() {
   const [plainText, setPlainText] = useState<string>("");
   const [cipherText, setCipherText] = useState<string>("");
   const [cipherTextBase64, setCipherTextBase64] = useState<string>("");
-
+  const [code, setCode] = useState<string>("ci") ;
   // State untuk file
   const [file, setFile] = useState<File | null>(null);
 
@@ -59,7 +59,7 @@ export default function VigenereCipher() {
         ciphertext += encryptedChar;
       }
     }
-
+    setCode("ci");
     setCipherText(ciphertext);
     setCipherTextBase64(Buffer.from(ciphertext).toString("base64"));
   };
@@ -87,7 +87,7 @@ export default function VigenereCipher() {
         convertedKey += decryptedChar;
       }
     }
-
+    setCode("deci");
     setCipherText(decryptedText);
     setCipherTextBase64(Buffer.from(decryptedText).toString("base64"));
   };
@@ -212,7 +212,7 @@ export default function VigenereCipher() {
               </div>
 
               <div className="mt-4 flex">
-                <a className="bg-black text-white p-2 rounded-lg flex items-center" href={`data:text/plain;charset=utf-8,${encodeURIComponent(cipherText)}`} download={`cipher_text.txt`}>
+                <a className="bg-black text-white p-2 rounded-lg flex items-center" href={`data:text/plain;charset=utf-8,${encodeURIComponent(cipherText)}`} download={`${code}pher_text.txt`}>
                   <FiDownload className="mr-2" />
                   Download Text File
                 </a>
