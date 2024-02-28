@@ -44,10 +44,29 @@ export default function AffineCipher() {
     setPlainText(e.target.value);
   };
 
+  function gcd(a: number, b: number): number {
+    // Ensure both numbers are non-negative
+    a = Math.abs(a);
+    b = Math.abs(b);
+
+    while (b !== 0) {
+      const temp = b;
+      b = a % b;
+      a = temp;
+    }
+
+    return a;
+  }
+
   // Algoritma enkripsi untuk form input plain text
   const encryptAffineCipher = () => {
     if (!plainText || isNaN(Number(keyA)) || isNaN(Number(keyB))) {
       alert("Please input plain text and valid numeric keys."); // Jika plain text atau key kosong
+      return;
+    }
+
+    if (gcd(Number(keyA), 26) != 1) {
+      alert("Please input number that not relatively prime with 26.");
       return;
     }
 
@@ -103,6 +122,12 @@ export default function AffineCipher() {
       alert("Please input plain text and valid numeric keys.");
       return;
     }
+
+    if (gcd(Number(keyA), 26) != 1) {
+      alert("Please input number that not relatively prime with 26.");
+      return;
+    }
+
     let decryptedText = "";
     const keyAInverse = modInverse(Number(keyA), 26);
 
