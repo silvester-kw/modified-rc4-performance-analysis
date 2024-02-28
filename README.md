@@ -8,19 +8,19 @@
 prequisite :
 Node.js
 
-1. Clone repository
+### 1. Clone repository
 
   $ git clone https://github.com/silvester-kw/classic-cryptography.git
 
-2. Install npm package
+### 2. Install npm package
 
   $ npm install
 
-3. Run development
+### 3. Run development
   
   $ npm run dev
 
-4. Open website
+### 4. Open website
 
   http://localhost:3000/
 
@@ -29,7 +29,7 @@ Node.js
 - 18221049 - Silvester K W P P
 - 18221080 - Fakhri Putra Mahardika
 
-## Tabel Fitur
+## Spesifikasi
 
 | No  | Feature                  | Success (✔) | Fail (❌) | Details                                                                                           |
 | :-: | :----------------------- | :---------- | :-------- | :-----------------------------------------------------------------------------------------------  |
