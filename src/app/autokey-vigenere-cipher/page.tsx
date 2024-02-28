@@ -43,7 +43,7 @@ export default function VigenereCipher() {
       alert("Please input plain text and enter a key."); // Jika plain text atau key kosong
       return;
     }
-    const convertedPlainText = plainText.replace(/\s+/g, "").toUpperCase();
+    const convertedPlainText = plainText.toUpperCase().replace(/\s+/g, "").replace(/[^A-Z]/g, "");
     const keyLen = key.replace(/\s+/g, "").length;
     const convertedKey = key.replace(/\s+/g, "").toUpperCase() + convertedPlainText.substring(0,convertedPlainText.length-keyLen);
     
@@ -71,7 +71,7 @@ export default function VigenereCipher() {
       alert("Please input plain text and enter a key."); // Jika plain text atau key kosong
       return;
     }
-    const convertedPlainText = plainText.replace(/\s+/g, "").toUpperCase();
+    const convertedPlainText = plainText.toUpperCase().replace(/\s+/g, "").replace(/[^A-Z]/g, "");
     let convertedKey = key.replace(/\s+/g, "").toUpperCase();
 
     let decryptedText = "";
