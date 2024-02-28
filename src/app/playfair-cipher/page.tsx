@@ -105,14 +105,20 @@ export default function PlaifairCipher() {
   };
 
   const decrypt = () => {
-    let ciphertext = plainText;
+    let ciphertext = plainText.toUpperCase().replace(/[^A-Z]/g, "");
     let plaintext = "";
     // Buat matriks Playfair Cipher berdasarkan kunci
     let matrix = createPlayfairMatrix(key);
     //console.log(ciphertext)
     for (let i = 0; i < ciphertext.length; i += 2) {
-        const char1 = ciphertext[i];
-        const char2 = ciphertext[i + 1];
+      const char1 = ciphertext[i];
+      let char2 = i + 1 < ciphertext.length ? ciphertext[i + 1] : "X";
+    
+      if (char1 === char2) {
+        char2 = "X";
+        ciphertext = insertCharAt(ciphertext, char2, i + 1);
+        char2 = ciphertext[i + 1];
+      }
         
         let decryptedChar1, decryptedChar2;
         //console.log(char1,char2);
