@@ -10,19 +10,19 @@ Node.js
 
 1. Clone repository
 
-$ git clone https://github.com/silvester-kw/classic-cryptography.git
+  $ git clone https://github.com/silvester-kw/classic-cryptography.git
 
 2. Install npm package
 
-$ npm install
+  $ npm install
 
 3. Run development
-
-$ npm run dev
+  
+  $ npm run dev
 
 4. Open website
 
-http://localhost:3000/
+  http://localhost:3000/
 
 ## Kontributor
 
