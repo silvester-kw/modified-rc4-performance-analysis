@@ -109,13 +109,13 @@ export default function PlaifairCipher() {
     let plaintext = "";
     // Buat matriks Playfair Cipher berdasarkan kunci
     let matrix = createPlayfairMatrix(key);
-    console.log(ciphertext)
+    //console.log(ciphertext)
     for (let i = 0; i < ciphertext.length; i += 2) {
         const char1 = ciphertext[i];
         const char2 = ciphertext[i + 1];
         
         let decryptedChar1, decryptedChar2;
-        console.log(char1,char2);
+        //console.log(char1,char2);
         // Temukan posisi kedua huruf dalam matriks
         const [row1, col1] = findCharInMatrix(matrix, char1);
         const [row2, col2] = findCharInMatrix(matrix, char2);
