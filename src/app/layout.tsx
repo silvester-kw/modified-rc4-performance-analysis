@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import Head from "next/head";
+import { ToastContainer, toast } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +29,9 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Navbar />
+        <div className="absolute">
+          <ToastContainer />
+        </div>
         <div className="container">{children}</div>
         <div className="font-reggae text-3xl items-center justify-center flex mt-12">Classic Cipher</div>
       </body>

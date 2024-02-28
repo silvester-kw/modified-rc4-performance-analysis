@@ -5,6 +5,7 @@ import { useState, ChangeEvent } from "react";
 import { FiDownload } from "react-icons/fi";
 import { BiChevronDown } from "react-icons/bi";
 import ShareLink from "../../components/ShareLink";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function VigenereCipher() {
   // Inisiasi state
@@ -60,6 +61,9 @@ export default function VigenereCipher() {
 
     setCipherText(ciphertext.toUpperCase());
     setCipherTextBase64(Buffer.from(ciphertext).toString("base64"));
+    toast.success("Success Notification", {
+      autoClose: 2000, // milliseconds
+    });
   };
 
   // Algoritma dekripsi untuk form input plain text
