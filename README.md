@@ -26,7 +26,7 @@ Node.js
 
 ## Kontributor
 
-- 18221049 - Silvester K W P P
+- 18221049 - Silvester Kresna W. P. P.
 - 18221080 - Fakhri Putra Mahardika
 
 ## Spesifikasi
