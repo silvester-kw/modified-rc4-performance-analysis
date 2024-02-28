@@ -5,69 +5,109 @@ import { useState, ChangeEvent } from "react";
 import { FiDownload } from "react-icons/fi";
 import { BiChevronDown } from "react-icons/bi";
 
-export default function VigenereCipher() {
+export default function AffineCipher() {
   // Inisiasi state
   const [inputType, setinputType] = useState<string | null>("text");
   const [isTypeOpen, setTypeOpen] = useState(false);
-  const [key, setKey] = useState<string>("");
+  const [keyA, setKeyA] = useState<string>("");
+  const [keyB, setKeyB] = useState<string>("");
   const [plainText, setPlainText] = useState<string>("");
   const [cipherText, setCipherText] = useState<string>("");
+
   // State untuk file
   const [file, setFile] = useState<File | null>(null);
 
-  // Menghandle dropdown tipe input
   const handleTypeSelect = (option: string) => {
     setinputType(option);
     setTypeOpen(false);
     setPlainText("");
-    setKey("");
-    setCipherText("");
   };
 
-  // Menghandle perubahan key pada form input
-  const handleKeyChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setKey(e.target.value);
+  const handleKeyAChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeyA(e.target.value);
   };
-
-  // Menghandle perubahan plain text pada form input
+  const handleKeyBChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeyB(e.target.value);
+  };
   const handlePlainTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPlainText(e.target.value);
   };
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
 
-  // Algoritma enkripsi untuk form input plain text
-  const encryptVigenereCipher = () => {
-    if (!plainText || !key) {
-      alert("Please input plain text and enter a key."); // Jika plain text atau key kosong
-      return;
+    if (selectedFile && selectedFile.type === "text/plain") {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const fileContent = event.target?.result as string;
+        setPlainText(fileContent);
+        setFile(selectedFile);
+      };
+
+      reader.readAsText(selectedFile);
+    } else {
+      alert("Please select a valid .txt file");
+      setPlainText("");
+      setFile(null);
     }
-    const convertedPlainText = plainText.replace(/\s+/g, "").toUpperCase();
-    const convertedKey = key.replace(/\s+/g, "").toUpperCase();
-
+  };
+  const encrypt = () => {
+    let withoutSpace = plainText.replace(/\s+/g, "");
     let ciphertext = "";
-    for (let i = 0; i < convertedPlainText.length; i++) {
-      const char = convertedPlainText.charAt(i);
+    for (let i = 0; i < withoutSpace.length; i++) {
+      const char = withoutSpace.charAt(i);
+      const isUpperCase = char === char.toUpperCase();
+
       if (char.match(/[A-Z]/i)) {
         const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
-        const keyCharCode = convertedKey[i % convertedKey.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const keyCharCode = keyA[i % keyA.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0) || 0;
         const encryptedCharCode = (plainTextCharCode + keyCharCode) % 26;
         const encryptedChar = String.fromCharCode(encryptedCharCode + "A".charCodeAt(0));
 
-        ciphertext += encryptedChar;
+        ciphertext += isUpperCase ? encryptedChar : encryptedChar.toLowerCase();
+      } else {
+        ciphertext += char;
+      }
+    }
+    withoutSpace = ciphertext.replace(/\s+/g, "");
+
+    const numRows = Math.ceil(withoutSpace.length / Number(keyB));
+
+    if (Number(keyB) !== 0) {
+      let secondCiphertext = "";
+      while (withoutSpace.length % Number(keyB) !== 0) {
+        withoutSpace += "x";
+      }
+      for (let col = 0; col < Number(keyB); col++) {
+        for (let row = 0; row < numRows; row++) {
+          secondCiphertext += withoutSpace[row * Number(keyB) + col];
+          //secondCiphertext += transpositionMatrix[row][col];
+        }
+      }
+      setCipherText(secondCiphertext);
+    } else {
+      setCipherText(withoutSpace);
+    }
+  };
+
+  const decrypt = () => {
+    let withoutSpace = plainText.replace(/\s+/g, "");
+
+    const numRows = Math.ceil(withoutSpace.length / Number(keyB));
+
+    let firstDeciphertext = "";
+
+    for (let col = 0; col < numRows; col++) {
+      for (let row = 0; row < Number(keyB); row++) {
+        firstDeciphertext += withoutSpace[row * numRows + col];
+        //secondCiphertext += transpositionMatrix[row][col];
       }
     }
 
-    setCipherText(ciphertext);
-  };
+    //let ciphertext = "";
 
-  // Algoritma dekripsi untuk form input plain text
-  const decryptVigenereCipher = () => {
-    let ciphertext = "";
-    if (!plainText || !key) {
-      alert("Please input plain text and enter a key."); // Jika plain text atau key kosong
-      return;
-    }
-    const convertedPlainText = plainText.replace(/\s+/g, "").toUpperCase();
-    const convertedKey = key.replace(/\s+/g, "").toUpperCase();
+    const convertedPlainText = firstDeciphertext;
+    const convertedKey = keyA.replace(/\s+/g, "").toUpperCase();
 
     let decryptedText = "";
     for (let i = 0; i < convertedPlainText.length; i++) {
@@ -78,31 +118,11 @@ export default function VigenereCipher() {
         const decryptedCharCode = (plainTextCharCode - keyCharCode + 26) % 26;
         const decryptedChar = String.fromCharCode(decryptedCharCode + "A".charCodeAt(0));
 
-        decryptedText += decryptedChar;
+        decryptedText += decryptedChar.toLowerCase();
       }
     }
 
     setCipherText(decryptedText);
-  };
-
-  // Menghandle perubahan file input
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-
-    if (selectedFile && selectedFile.type === "text/plain") {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        const fileContent = event.target?.result as string;
-        setPlainText(fileContent);
-      };
-
-      reader.readAsText(selectedFile);
-      setFile(selectedFile);
-    } else {
-      alert("Please select a valid .txt file");
-      setPlainText("");
-    }
   };
 
   // Program utama
@@ -154,19 +174,26 @@ export default function VigenereCipher() {
               </div>
             )}
             <div className="flex w-full">
-              <div className="w-[200px]">Key (26 alphabets)</div>
+              <div className="w-[200px]">Key A (26 alphabet)</div>
               <div className="w-full">
-                <label htmlFor="key"></label>
-                <input type="text" id="key" value={key} onChange={handleKeyChange} className="px-2 py-2 whitespace-pre-wrap border-black border-2 rounded-lg w-full" placeholder="Type key here..." />
+                <label htmlFor="keyA"></label>
+                <input type="text" id="keyA" value={keyA} onChange={handleKeyAChange} className="px-2 py-2 whitespace-pre-wrap border-black border-2 rounded-lg w-full" placeholder="Type key here..." />
+              </div>
+            </div>
+            <div className="flex w-full">
+              <div className="w-[200px]">Key B (number)</div>
+              <div className="w-full">
+                <label htmlFor="keyB"></label>
+                <input type="text" id="keyB" value={keyB} onChange={handleKeyBChange} className="px-2 py-2 whitespace-pre-wrap border-black border-2 rounded-lg w-full" placeholder="Type key here..." />
               </div>
             </div>
             {inputType == "text" && (
               <div className="flex">
                 <div className="w-[150px]"></div>
-                <button onClick={encryptVigenereCipher} className="p-2 bg-white text-black outline outline-3 outline-black rounded-lg hover:bg-black hover:text-white focus:bg-black focus:text-white">
+                <button onClick={encrypt} className="p-2 bg-white text-black outline outline-3 outline-black rounded-lg hover:bg-black hover:text-white focus:bg-black focus:text-white">
                   Encrypt Text
                 </button>
-                <button onClick={decryptVigenereCipher} className="ml-4 p-2 bg-white text-black outline outline-3 outline-black rounded-lg hover:bg-black hover:text-white">
+                <button onClick={decrypt} className="ml-4 p-2 bg-white text-black outline outline-3 outline-black rounded-lg hover:bg-black hover:text-white">
                   Decrypt Text
                 </button>
               </div>
@@ -175,21 +202,21 @@ export default function VigenereCipher() {
             {inputType == "file" && (
               <div className="flex">
                 <div className="w-[150px]"></div>
-                <button onClick={encryptVigenereCipher} className="p-2 bg-white text-black outline outline-3 outline-black rounded-lg hover:bg-black hover:text-white focus:bg-black focus:text-white">
+                <button onClick={encrypt} className="p-2 bg-white text-black outline outline-3 outline-black rounded-lg hover:bg-black hover:text-white focus:bg-black focus:text-white">
                   Encrypt File
                 </button>
-                <button onClick={decryptVigenereCipher} className="ml-4 p-2 bg-white text-black outline outline-3 outline-black rounded-lg hover:bg-black hover:text-white focus:bg-black focus:text-white">
+                <button onClick={decrypt} className="ml-4 p-2 bg-white text-black outline outline-3 outline-black rounded-lg hover:bg-black hover:text-white focus:bg-black focus:text-white">
                   Decrypt File
                 </button>
               </div>
             )}
           </div>
         </div>
-        <div className="p-4 border-b-4 border-black bg-[#798BCC]">
+        <div className="p-4 border-b-4 border-black bg-[#F5DDB1]">
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221049 Silvester Kresna W. P. P.</div>
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221080 Fakhri Putra Mahardika.</div>
         </div>
-        <div className="flex items-center justify-center pt-4 px-4 md:text-5xl lg:text-5xl font-reggae">Autokey Vigenere</div>
+        <div className="flex items-center justify-center pt-4 px-4 md:text-5xl lg:text-7xl font-reggae">Product</div>
         <div className="flex items-center justify-center pb-4 px-4 md:text-7xl lg:text-9xl font-reggae">Cipher</div>
       </div>
       <div className="w-[55%] border-black border-r-4 border-y-4">
@@ -211,7 +238,7 @@ export default function VigenereCipher() {
         </div>
         <div className="h-[50%]  black object-center object-none bg-red-200">
           <img
-            src="/yae.jpg" //
+            src="/zhongli.jpg" //
             alt="Description of your image"
             className="w-full h-full object-cover"
           />
