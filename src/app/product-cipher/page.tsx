@@ -60,9 +60,9 @@ export default function ProductCipher() {
           //secondCiphertext += transpositionMatrix[row][col];
         }
       }
-      setCipherText(secondCiphertext);
+      setCipherText(secondCiphertext.toUpperCase());
     } else {
-      setCipherText(withoutSpace);
+      setCipherText(withoutSpace.toUpperCase());
     }
   };
 
@@ -98,7 +98,7 @@ export default function ProductCipher() {
       }
     }
 
-    setCipherText(decryptedText);
+    setCipherText(decryptedText.toUpperCase());
   };
 
   return (
