@@ -58,7 +58,7 @@ export default function VigenereCipher() {
       }
     }
 
-    setCipherText(ciphertext);
+    setCipherText(ciphertext.toUpperCase());
     setCipherTextBase64(Buffer.from(ciphertext).toString("base64"));
   };
 
@@ -85,7 +85,7 @@ export default function VigenereCipher() {
       }
     }
 
-    setCipherText(decryptedText);
+    setCipherText(decryptedText.toUpperCase());
     setCipherTextBase64(Buffer.from(decryptedText).toString("base64"));
   };
 
