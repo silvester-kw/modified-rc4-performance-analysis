@@ -1,6 +1,5 @@
 "use client";
 
-import { Lekton } from "next/font/google";
 import React from "react";
 import { useState, ChangeEvent } from "react";
 
@@ -26,8 +25,14 @@ export default function PlaifairCipher() {
   const createPlayfairMatrix = (key: any) => {
     const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
     let matrix: string[][] = Array.from({ length: 5 }, () => Array(5).fill(""));
-    let keyWithoutDuplicates = key.toUpperCase().replace(/J/g, "I").replace(/[^A-Z]/g, "");
-    keyWithoutDuplicates = keyWithoutDuplicates.split('').filter((char:string, index:Number, array:String) => array.indexOf(char) === index).join('');
+    let keyWithoutDuplicates = key
+      .toUpperCase()
+      .replace(/J/g, "I")
+      .replace(/[^A-Z]/g, "");
+    keyWithoutDuplicates = keyWithoutDuplicates
+      .split("")
+      .filter((char: string, index: Number, array: String) => array.indexOf(char) === index)
+      .join("");
     keyWithoutDuplicates += alphabet.replace(new RegExp(`[${keyWithoutDuplicates}]`, "g"), "");
 
     let index = 0;
@@ -52,7 +57,7 @@ export default function PlaifairCipher() {
     return [-1, -1];
   };
 
-  function insertCharAt(str:any, char:any, position:any) {
+  function insertCharAt(str: any, char: any, position: any) {
     // Bagian awal string sebelum posisi yang ditentukan
     let firstPart = str.substring(0, position);
     // Bagian akhir string setelah posisi yang ditentukan
@@ -60,8 +65,7 @@ export default function PlaifairCipher() {
     // Gabungkan kedua bagian dengan karakter yang disisipkan di antaranya
     let newStr = firstPart + char + secondPart;
     return newStr;
-}
-
+  }
 
   const encrypt = () => {
     let preparePlainText = plainText
@@ -74,19 +78,19 @@ export default function PlaifairCipher() {
     for (let i = 0; i < preparePlainText.length; i += 2) {
       const char1 = preparePlainText[i];
       let char2 = i + 1 < preparePlainText.length ? preparePlainText[i + 1] : "X";
-    
+
       if (char1 === char2) {
         char2 = "X";
         preparePlainText = insertCharAt(preparePlainText, char2, i + 1);
         char2 = preparePlainText[i + 1];
       }
-      
+
       //console.log(char1 + char2);
       const [row1, col1] = findCharInMatrix(matrix, char1);
       const [row2, col2] = findCharInMatrix(matrix, char2);
-    
+
       let encryptedChar1, encryptedChar2;
-    
+
       if (row1 === row2) {
         encryptedChar1 = matrix[row1][(col1 + 1) % 5];
         encryptedChar2 = matrix[row2][(col2 + 1) % 5];
@@ -97,7 +101,7 @@ export default function PlaifairCipher() {
         encryptedChar1 = matrix[row1][col2];
         encryptedChar2 = matrix[row2][col1];
       }
-    
+
       ciphertext += encryptedChar1 + encryptedChar2;
     }
     setCipherText(ciphertext);
@@ -113,34 +117,34 @@ export default function PlaifairCipher() {
     for (let i = 0; i < ciphertext.length; i += 2) {
       const char1 = ciphertext[i];
       let char2 = i + 1 < ciphertext.length ? ciphertext[i + 1] : "X";
-    
+
       if (char1 === char2) {
         char2 = "X";
         ciphertext = insertCharAt(ciphertext, char2, i + 1);
         char2 = ciphertext[i + 1];
       }
-        
-        let decryptedChar1, decryptedChar2;
-        //console.log(char1,char2);
-        // Temukan posisi kedua huruf dalam matriks
-        const [row1, col1] = findCharInMatrix(matrix, char1);
-        const [row2, col2] = findCharInMatrix(matrix, char2);
 
-        if (row1 === row2) {
-            // Jika kedua huruf berada pada baris yang sama, geser ke kiri
-            decryptedChar1 = matrix[row1][(col1 - 1 + 5) % 5];
-            decryptedChar2 = matrix[row2][(col2 - 1 + 5) % 5];
-        } else if (col1 === col2) {
-            // Jika kedua huruf berada pada kolom yang sama, geser ke atas
-            decryptedChar1 = matrix[(row1 - 1 + 5) % 5][col1];
-            decryptedChar2 = matrix[(row2 - 1 + 5) % 5][col2];
-        } else {
-            // Jika kedua huruf tidak berada pada baris atau kolom yang sama
-            decryptedChar1 = matrix[row1][col2];
-            decryptedChar2 = matrix[row2][col1];
-        }
+      let decryptedChar1, decryptedChar2;
+      //console.log(char1,char2);
+      // Temukan posisi kedua huruf dalam matriks
+      const [row1, col1] = findCharInMatrix(matrix, char1);
+      const [row2, col2] = findCharInMatrix(matrix, char2);
 
-        plaintext += decryptedChar1 + decryptedChar2;
+      if (row1 === row2) {
+        // Jika kedua huruf berada pada baris yang sama, geser ke kiri
+        decryptedChar1 = matrix[row1][(col1 - 1 + 5) % 5];
+        decryptedChar2 = matrix[row2][(col2 - 1 + 5) % 5];
+      } else if (col1 === col2) {
+        // Jika kedua huruf berada pada kolom yang sama, geser ke atas
+        decryptedChar1 = matrix[(row1 - 1 + 5) % 5][col1];
+        decryptedChar2 = matrix[(row2 - 1 + 5) % 5][col2];
+      } else {
+        // Jika kedua huruf tidak berada pada baris atau kolom yang sama
+        decryptedChar1 = matrix[row1][col2];
+        decryptedChar2 = matrix[row2][col1];
+      }
+
+      plaintext += decryptedChar1 + decryptedChar2;
     }
 
     setCipherText(plaintext);
