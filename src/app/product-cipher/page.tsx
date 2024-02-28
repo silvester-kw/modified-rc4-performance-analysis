@@ -86,7 +86,7 @@ export default function AffineCipher() {
           //secondCiphertext += transpositionMatrix[row][col];
         }
       }
-      setCipherText(secondCiphertext.toUpperCase);
+      setCipherText(secondCiphertext.toUpperCase());
       setCipherTextBase64(Buffer.from(secondCiphertext).toString("base64"));
     } else {
       setCipherText(withoutSpace.toUpperCase());
