@@ -44,8 +44,9 @@ export default function VigenereCipher() {
       return;
     }
     const convertedPlainText = plainText.replace(/\s+/g, "").toUpperCase();
-    const convertedKey = key.replace(/\s+/g, "").toUpperCase();
-
+    const keyLen = key.replace(/\s+/g, "").length;
+    const convertedKey = key.replace(/\s+/g, "").toUpperCase() + convertedPlainText.substring(0,convertedPlainText.length-keyLen);
+    
     let ciphertext = "";
     for (let i = 0; i < convertedPlainText.length; i++) {
       const char = convertedPlainText.charAt(i);
@@ -71,18 +72,19 @@ export default function VigenereCipher() {
       return;
     }
     const convertedPlainText = plainText.replace(/\s+/g, "").toUpperCase();
-    const convertedKey = key.replace(/\s+/g, "").toUpperCase();
+    let convertedKey = key.replace(/\s+/g, "").toUpperCase();
 
     let decryptedText = "";
     for (let i = 0; i < convertedPlainText.length; i++) {
       const char = convertedPlainText.charAt(i);
       if (char.match(/[A-Z]/i)) {
         const plainTextCharCode = char.toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
-        const keyCharCode = convertedKey[i % convertedKey.length].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
+        const keyCharCode = convertedKey[i].toUpperCase().charCodeAt(0) - "A".charCodeAt(0);
         const decryptedCharCode = (plainTextCharCode - keyCharCode + 26) % 26;
         const decryptedChar = String.fromCharCode(decryptedCharCode + "A".charCodeAt(0));
 
         decryptedText += decryptedChar;
+        convertedKey += decryptedChar;
       }
     }
 
