@@ -2,7 +2,6 @@
 
 ## Tugas Kecil 1 - II4031 Kriptografi dan Koding
 
-## Daftar Cipher
 
 ## Instalasi
 
@@ -31,3 +30,12 @@ http://localhost:3000/
 - 18221080 - Fakhri Putra Mahardika
 
 ## Tabel Fitur
+
+| No  | Feature                  | Success (✔) | Fail (❌) | Details                                                                                           |
+| :-: | :----------------------- | :---------- | :-------- | :-----------------------------------------------------------------------------------------------  |
+|  1  | Vigenere Cipher          | ✔           |           |                                                                                                   |
+|  2  | Extended Vigenere Cipher | ✔           |           |                                                                                                   |
+|  3  | Playfair Cipher          | ✔           |           |                                                                                                   |
+|  4  | Product Cipher           | ✔           |           |                                                                                                   |
+|  5  | Affine Cipher            | ✔           |           |                                                                                                   |
+|  6  | Auto-Key Vigenere Cipher | ✔           |           |                                                                                                   |
