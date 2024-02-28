@@ -11,14 +11,20 @@ const EncryptDecryptFileInput = {
     const encryptedData = new Uint8Array(fileData.length);
 
     for (let i = 0; i < fileData.length; i++) {
-      encryptedData[i] = fileData[i] ^ key.charCodeAt(i % key.length);
+      encryptedData[i] = (fileData[i] + key.charCodeAt(i % key.length)) % 256 ;
     }
 
     return encryptedData;
   },
 
   decrypt: (fileData: Uint8Array, key: string): Uint8Array => {
-    return EncryptDecryptFileInput.encrypt(fileData, key);
+    const decryptedData = new Uint8Array(fileData.length);
+
+    for (let i = 0; i < fileData.length; i++) {
+      decryptedData[i] = (fileData[i] - key.charCodeAt(i % key.length)) % 256 ;
+    }
+
+    return decryptedData;
   },
 };
 
