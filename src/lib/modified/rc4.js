@@ -9,7 +9,7 @@ function initializeSBoxModified(key) {
     key = vigenereEncrypt(key, key);
     var j = 0;
     for (var i = 0; i < 256; i++) {
-        var modifier = key.charCodeAt((Math.random() % key.length));
+        var modifier = vigenereEncrypt(key.charAt((i % key.length)), key).charCodeAt(0);
         j = (j + s[i] + key.charCodeAt(i % keyLength) + modifier) % 256;
         _a = [s[j], s[i]], s[i] = _a[0], s[j] = _a[1];
     }
@@ -35,7 +35,7 @@ function generateStreamModified(key, messageLength) {
         i = (i + 1) % 256;
         j = (j + sBox[i]) % 256;
         _a = [sBox[j], sBox[i]], sBox[i] = _a[0], sBox[j] = _a[1];
-        var streamModifier = key.charCodeAt((Math.random() % key.length));
+        var streamModifier = vigenereEncrypt(key.charAt((i % key.length)), key).charCodeAt(0);
         var t = (sBox[i] + sBox[j] + streamModifier) % 256;
         var pseudoRandomByte = sBox[t];
         stream.push(pseudoRandomByte);
