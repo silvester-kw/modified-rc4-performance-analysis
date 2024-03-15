@@ -5,6 +5,9 @@ export default function Navbar() {
   return (
     <div className="flex mb-4 container font-mono py-4 text-lg">
       <ul className="flex w-full justify-between font-medium">
+        <Link href="/modified-rc4">
+          <li className="hover:font-bold bg-red-800 hover:bg-red-950 text-white rounded px-3">Mod. RC4</li>
+        </Link>
         <Link href="/vigenere-cipher">
           <li className="hover:font-bold">Vigenere Cipher</li>
         </Link>

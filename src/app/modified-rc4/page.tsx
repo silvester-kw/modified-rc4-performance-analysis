@@ -12,7 +12,7 @@ const EncryptDecryptFileInput = {
     const encryptedData = new Uint8Array(fileData.length);
 
     for (let i = 0; i < fileData.length; i++) {
-      encryptedData[i] = (fileData[i] + key.charCodeAt(i % key.length)) % 256 ;
+      encryptedData[i] = (fileData[i] + key.charCodeAt(i % key.length)) % 256;
     }
 
     return encryptedData;
@@ -22,7 +22,7 @@ const EncryptDecryptFileInput = {
     const decryptedData = new Uint8Array(fileData.length);
 
     for (let i = 0; i < fileData.length; i++) {
-      decryptedData[i] = (fileData[i] - key.charCodeAt(i % key.length)) % 256 ;
+      decryptedData[i] = (fileData[i] - key.charCodeAt(i % key.length)) % 256;
     }
 
     return decryptedData;
@@ -37,7 +37,7 @@ export default function ExtendedVigenereCipher() {
   const [plainText, setPlainText] = useState<string>("");
   const [cipherText, setCipherText] = useState<string>("");
   const [cipherTextBase64, setCipherTextBase64] = useState<string>("");
-  const [code, setCode] = useState<string>("ci") ;
+  const [code, setCode] = useState<string>("ci");
   // State untuk file
   const [file, setFile] = useState<File | null>(null);
   const [encryptedFile, setEncryptedFile] = useState<Blob | null>(null);
@@ -74,7 +74,7 @@ export default function ExtendedVigenereCipher() {
       return;
     }
     let ciphertext = rc4EncryptModified(plainText, key);
-    
+
     setCode("ci");
     setCipherText(ciphertext);
     setCipherTextBase64(Buffer.from(ciphertext).toString("base64"));
@@ -87,7 +87,7 @@ export default function ExtendedVigenereCipher() {
       return;
     }
     let ciphertext = rc4EncryptModified(plainText, key);
-    
+
     setCode("deci");
     setCipherText(ciphertext);
     setCipherTextBase64(Buffer.from(ciphertext).toString("base64"));
@@ -213,12 +213,12 @@ export default function ExtendedVigenereCipher() {
             )}
           </div>
         </div>
-        <div className="p-4 border-b-4 border-black bg-[#1FB6FD]">
+        <div className="p-4 border-b-4 border-black bg-[#c3c3c3]">
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221049 Silvester Kresna W. P. P.</div>
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221080 Fakhri Putra Mahardika.</div>
         </div>
-        <div className="flex items-center justify-center pt-4 px-4 md:text-3xl lg:text-5xl font-reggae">RC 4 RC $ RC 4</div>
-        <div className="flex items-center justify-center pb-4 px-4 md:text-7xl lg:text-9xl font-reggae">STREAM Cipher</div>
+        <div className="flex items-center justify-center pt-4 px-4 md:text-3xl lg:text-5xl font-reggae">Modified</div>
+        <div className="flex items-center justify-center pb-4 px-4 md:text-7xl lg:text-9xl font-reggae">Rivest Cipher 4</div>
       </div>
       <div className="w-[55%] border-black border-r-4 border-y-4">
         <div className="h-[50%] font-mono border-b-4 border-black font-medium p-4">
@@ -278,7 +278,7 @@ export default function ExtendedVigenereCipher() {
         </div>
         <div className="h-[50%] outline outline-4 black object-center object-none bg-red-200">
           <img
-            src="/furina.jpeg" //
+            src="/arle.png" //
             alt="Description of your image"
             className="w-full h-full object-cover"
           />
