@@ -4,7 +4,7 @@ import React, { useState, ChangeEvent } from "react";
 import { FiDownload } from "react-icons/fi";
 import { BiChevronDown } from "react-icons/bi";
 import ShareLink from "../../components/ShareLink";
-import { rc4EncryptDecryptModified } from "@/lib/modified/rc4";
+import { rc4EncryptDecrypt } from "@/lib/rc4";
 import ByteDistributionChart from "@/components/ByteDistributionChart";
 
 const countByteDistribution = (data: Uint8Array): number[] => {
@@ -134,7 +134,7 @@ export default function RC4() {
       return;
     }
     const start = performance.now();
-    let ciphertext = rc4EncryptDecryptModified(plainText, key);
+    let ciphertext = rc4EncryptDecrypt(plainText, key);
     const end = performance.now();
 
     setCode("ci");
@@ -159,7 +159,7 @@ export default function RC4() {
       return;
     }
     const start = performance.now();
-    let ciphertext = rc4EncryptDecryptModified(plainText, key);
+    let ciphertext = rc4EncryptDecrypt(plainText, key);
     const end = performance.now();
 
     setCode("deci");
@@ -321,7 +321,6 @@ export default function RC4() {
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">18221049 Silvester Kresna W. P. P.</div>
           <div className="font-mono md:text-md lg:text-xl tracking-tighter font-semibold">My Contact: silvesterkresna@gmail.com</div>
         </div>
-        <div className="flex items-center justify-center py-4 px-4 md:text-7xl lg:text-7xl font-reggae align-center">Modified</div>
         <div className="flex items-center justify-center py-4 px-4 md:text-7xl lg:text-7xl font-reggae align-center">RC 4</div>
       </div>
       <div className="w-[55%] border-black border-r-4 border-l-2 border-y-4">

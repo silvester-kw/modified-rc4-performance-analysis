@@ -4,27 +4,12 @@ import React from "react";
 export default function Navbar() {
   return (
     <div className="flex mb-4 container font-mono py-4 text-lg">
-      <ul className="flex w-full justify-between font-medium">
+      <ul className="flex w-full justify-center space-x-8 font-medium">
         <Link href="/modified-rc4">
-          <li className="hover:font-bold bg-red-800 hover:bg-red-950 text-white rounded px-3">Mod. RC4</li>
+          <li className="hover:font-bold bg-red-800 hover:bg-red-950 text-white rounded px-3 border-4 border-red-800">Modified RC4</li>
         </Link>
-        <Link href="/vigenere-cipher">
-          <li className="hover:font-bold">Vigenere Cipher</li>
-        </Link>
-        <Link href="/extended-vigenere-cipher">
-          <li className="hover:font-bold">Extended Vigenere Cipher</li>
-        </Link>
-        <Link href="/playfair-cipher">
-          <li className="hover:font-bold">Playfair Cipher</li>
-        </Link>
-        <Link href="/product-cipher">
-          <li className="hover:font-bold">Product Cipher</li>
-        </Link>
-        <Link href="/autokey-vigenere-cipher">
-          <li className="hover:font-bold">Autokey Vigenere Cipher</li>
-        </Link>
-        <Link href="/affine-cipher">
-          <li className="hover:font-bold">Affine Cipher</li>
+        <Link href="/rc4">
+          <li className="hover:font-bold border-4 rounded px-3 border-red-800">RC 4</li>
         </Link>
       </ul>
     </div>
