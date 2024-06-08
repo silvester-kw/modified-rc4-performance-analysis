@@ -446,7 +446,7 @@ export default function RC4() {
         </div>
         <div className="h-[50%] outline outline-4 black object-center object-none bg-red-200">
           <img
-            src="/kazuha.jpg" //
+            src="/arle.png" //
             alt="Description of your image"
             className="w-full h-full object-cover"
           />

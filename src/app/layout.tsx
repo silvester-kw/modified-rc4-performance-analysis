@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Classic Cryptography",
+  title: "Modified RC4",
   description: "Created by Silvester Kresna W. P. P.",
 };
 
