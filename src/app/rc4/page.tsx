@@ -72,12 +72,7 @@ const EncryptDecryptFileInput = {
   },
 
   decrypt: (fileData: Uint8Array, key: string): Uint8Array => {
-    const decryptedData = new Uint8Array(fileData.length);
-
-    for (let i = 0; i < fileData.length; i++) {
-      decryptedData[i] = (fileData[i] - key.charCodeAt(i % key.length)) % 256;
-    }
-
+    const decryptedData = rc4EncryptDecryptFile(fileData, key);
     return decryptedData;
   },
 };
