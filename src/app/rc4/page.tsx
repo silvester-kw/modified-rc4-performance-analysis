@@ -4,7 +4,7 @@ import React, { useState, ChangeEvent } from "react";
 import { FiDownload } from "react-icons/fi";
 import { BiChevronDown } from "react-icons/bi";
 import ShareLink from "../../components/ShareLink";
-import { rc4EncryptDecrypt } from "@/lib/rc4";
+import { rc4EncryptDecrypt, rc4EncryptDecryptFile } from "@/lib/rc4";
 import ByteDistributionChart from "@/components/ByteDistributionChart";
 
 const countByteDistribution = (data: Uint8Array): number[] => {
@@ -61,11 +61,12 @@ const calculateEntropy = (data: Uint8Array): number => {
 
 const EncryptDecryptFileInput = {
   encrypt: (fileData: Uint8Array, key: string): Uint8Array => {
-    const encryptedData = new Uint8Array(fileData.length);
+    // const encryptedData = new Uint8Array(fileData.length);
 
-    for (let i = 0; i < fileData.length; i++) {
-      encryptedData[i] = (fileData[i] + key.charCodeAt(i % key.length)) % 256;
-    }
+    const encryptedData = rc4EncryptDecryptFile(fileData, key);
+    // for (let i = 0; i < fileData.length; i++) {
+    //   encryptedData[i] = (fileData[i] + key.charCodeAt(i % key.length)) % 256;
+    // }
 
     return encryptedData;
   },
